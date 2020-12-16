@@ -29,6 +29,8 @@ class Object(object):
 
     @staticmethod
     def find_object_of_type(object_type: Type[T]) -> Optional[T]:
+        """Return the first instance of an Object of type Type"""
+
         if object_type is not Object:
             for obj in Object.__OBJECTS:
                 if isinstance(obj, object_type):
@@ -36,24 +38,7 @@ class Object(object):
 
     @staticmethod
     def find_objects_of_type(object_type: Type[T]) -> Union[List, List[T]]:
+        """Return a list of Objects of type Type"""
+
         if object_type is not Object:
             return [obj for obj in Object.__OBJECTS if isinstance(obj, object_type)]
-
-
-class GO(Object):
-    def __init__(self, name: str, tag: str):
-        super().__init__(name)
-        self.tag = tag
-
-
-class Component(Object):
-    def __init__(self, name):
-        super().__init__(name)
-
-
-c = Component("comp")
-for x in range(int(1e3)):
-    g = GO(str(x), "")
-
-r = Object.find_object_of_type(GO)
-print(r)
