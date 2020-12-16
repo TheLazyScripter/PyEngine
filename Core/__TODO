@@ -1,0 +1,19 @@
+Complete Documentation on all finalized classes and functions
+
+Figure out how to update, fixed update, and late update objects as well
+    as how and when to start and awake them
+
+Determine when objects need to be redrawn by checking changes in surfaces if
+    it's actually faster to do so
+
+Create a GUI system and figure out some layout/UI effects
+
+State Machine:
+    Holds all active Surfaces created or loaded from the Scene Manager
+    Send's updates and input to the active State
+
+
+Rendering:
+    A list of active Surfaces held by the current State process updates
+    and draws to the Window.
+    Window is the base Surface
