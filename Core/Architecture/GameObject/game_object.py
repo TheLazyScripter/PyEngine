@@ -8,7 +8,7 @@ from ..CONSTANTS import *
 
 if TYPE_CHECKING:  # Dirty Hack to make 'Component' type available
     # noinspection PyProtectedMember
-    from ..Component import Component
+    from ..Component import Component, TYPE_COMP
 
 
 class GameObject(object):
@@ -155,7 +155,7 @@ class GameObject(object):
 
         self.remove_component(self.get_component(comp_type))
 
-    def get_component(self, component_type: Type[Component]) -> Optional[Component]:
+    def get_component(self, component_type: Type[Component]) -> Optional[TYPE_COMP]:
         """Get a reference to a Component attached to this GameObject, whose type matches
 
         :returns Component: The 'Component' attached to the 'GameObject' whose type matches"""
@@ -165,14 +165,14 @@ class GameObject(object):
                 return component
         return None
 
-    def get_component_in_children(self, component_type: type) -> Optional[Component]:
+    def get_component_in_children(self, component_type: type) -> Optional[TYPE_COMP]:
         for child in self.__children:
             m = child.get_component_in_children(component_type)
             if m:
                 return m
         return None
 
-    def get_component_in_parent(self, comp_type: type) -> Optional[Component]:
+    def get_component_in_parent(self, comp_type: type) -> Optional[TYPE_COMP]:
         if self.parent:
             for child in self.parent.children:
                 m = child.get_component(comp_type)
