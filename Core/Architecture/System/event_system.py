@@ -36,11 +36,6 @@ class EventSystem(object):
             self.key_ups = []
             self.key_downs = []
 
-            self._registered_events: List[Event] = []
-
-        def register_event(self, event: Event):
-            self._registered_events.append(event)
-
         @staticmethod
         def check_event(event_list, events):
             found = False
@@ -60,12 +55,6 @@ class EventSystem(object):
                         found = True
                         event_list.remove(event)
             return found
-
-        def check_registered_events(self):
-            for i in self.events:
-                for j in self._registered_events:
-                    if i.type == j.type:
-                        j.event.execute()
     
         def get_events(self, events):
             if not isinstance(events, (tuple, set, list)):
@@ -96,8 +85,6 @@ class EventSystem(object):
                     self.key_downs.append(event)
                 elif event.type == pygame.KEYUP:
                     self.key_ups.append(event)
-                elif event.type == pygame.MOUSEMOTION:
-                    MouseMotion().send()
                 else:
                     self.events.append(event)
     
@@ -113,44 +100,3 @@ class EventSystem(object):
     
     def __getattr__(self, item):
         return getattr(self._instance, item)
-
-
-class Event:
-    """Custum Event for EventSystem to manage and execute callbacks.
-
-    Builds upon the pygame.event.Event type and extends to allow for
-    callback to be injected into the event and executed by the EventSystem
-    later.
-    """
-
-    def __init__(self, event_code: int):
-        self.type = pygame.USEREVENT + event_code
-        self._callback = None
-
-    def register_callback(self, callback: type):
-        self._callback = callback
-        
-    def send(self):
-
-        pygame.event.post(pygame.event.Event(self.type, {"event": self}))
-
-    def execute(self):
-        if not self._callback:
-            raise RuntimeError("Must register_callback for this event first")
-        self._callback()
-
-
-class OnCollisionEvent(Event):
-    def __init__(self):
-        super().__init__(1)
-
-
-class MouseMotion(Event):
-    def __init__(self):
-        super().__init__(1)
-        EventSystem().register_event(self)
-        self.register_callback(MouseMotion.print_mouse)
-
-    @staticmethod
-    def print_mouse():
-        print(pygame.mouse.get_pos())
