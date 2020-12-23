@@ -6,8 +6,10 @@ if TYPE_CHECKING:
 
 
 class RegistryObject:
-    def __init__(self, priority: int, target: type, *args, **kwargs):
+    def __init__(self, priority: int, target: type, wrapper: type, delay=None, *args, **kwargs):
         self.__priority = priority
-        self.__target = target
+        self.process = lambda: wrapper(self, lambda: target(*args, **kwargs), delay=delay)
 
-
+    @property
+    def priority(self):
+        return self.__priority

@@ -31,9 +31,6 @@ class Window:
         def add_camera(self, camera: Camera):
             self.camera = camera
     
-        def get_active_window(self):
-            return self.__window
-    
         def update(self):
             self.__is_active = pygame.display.get_active()
     

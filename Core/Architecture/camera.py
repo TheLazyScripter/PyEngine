@@ -53,7 +53,7 @@ class Camera(GameObject):
         if mode == DEBUG_DRAW:  # Draw Camera Rect
             pygame.draw.rect(self.renderer.surface, (0, 255, 0), self.renderer.rect, 2)
 
-        surface.blit(self.renderer.surface, self.get_component(Transform).position.components())
+        surface.blit(self.renderer.surface, self.get_component(Transform).position.components)
 
     @staticmethod
     def main():
